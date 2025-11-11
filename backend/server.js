@@ -19,17 +19,16 @@ if (!KEY_ID || !KEY_SECRET) {
 
 const razorpay = createInstance(KEY_ID, KEY_SECRET);
 
-// create order (called from React)
 app.post('/create-order', async (req, res) => {
   try {
     const { amount, currency = 'INR', receipt = `rcpt_${Date.now()}` } = req.body;
 
-    // amount should be in paise (=> multiply by 100 if sending INR amount)
+    //amount should be in pase
     const options = {
-      amount: amount, // integer (paise). e.g. 50000 for ₹500.00
+      amount: amount, 
       currency,
       receipt,
-      payment_capture: 1 // auto capture
+      payment_capture: 1 //auto capture
     };
 
     const order = await razorpay.orders.create(options);
@@ -40,13 +39,12 @@ app.post('/create-order', async (req, res) => {
   }
 });
 
-// verify payment signature (called from React after success)
+//verify payment signature
 app.post('/verify', (req, res) => {
   try {
-    const payload = req.body; // expects razorpay_order_id, razorpay_payment_id, razorpay_signature
+    const payload = req.body;
     const ok = verifyPaymentSignature(payload, KEY_SECRET);
     if (ok) {
-      // here you would update DB / fulfill order
       return res.json({ success: true, message: 'Payment verified' });
     } else {
       return res.status(400).json({ success: false, message: 'Invalid signature' });
