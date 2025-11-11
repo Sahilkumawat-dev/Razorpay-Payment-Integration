@@ -5,8 +5,6 @@ import CheckoutButton from './components/CheckoutButton';
 export default function App() {
   return (
     <div style={{ padding: 24, fontFamily: 'Arial, sans-serif' }}>
-      {/* <h2>AK Payment System — Razorpay (Demo)</h2>
-      <p>Test UPI / Wallets / Cards via Razorpay Checkout.</p> */}
 
       <div style={{ marginTop: 20 }}>
         <CheckoutButton />
